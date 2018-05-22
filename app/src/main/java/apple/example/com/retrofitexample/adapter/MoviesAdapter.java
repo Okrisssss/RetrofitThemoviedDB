@@ -6,8 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -19,10 +22,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     private List<Movie> movies;
     private int rowLayout;
     private Context context;
+    private final String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/original";
 
     public static class MovieViewHolder extends RecyclerView.ViewHolder{
         LinearLayout moviesLayout;
         TextView movieTitle, data, movieDescription, rating;
+        ImageView posterImageView;
 
 
         public MovieViewHolder(View v) {
@@ -33,6 +38,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             data = (TextView)v.findViewById(R.id.subtitle);
             movieDescription = (TextView) v.findViewById(R.id.description);
             rating = (TextView) v.findViewById(R.id.rating);
+            posterImageView = (ImageView) v.findViewById(R.id.posterImageView);
         }
     }
 
@@ -58,6 +64,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         holder.data.setText(movies.get(position).getReleaseDate());
         holder.movieDescription.setText(movies.get(position).getOverview());
         holder.rating.setText(movies.get(position).getVoteAverage().toString());
+        Picasso.with(context).load(BASE_IMAGE_URL + movies.get(position).getPosterPath()).
+                resize(150, 150).
+                centerCrop().
+                into(holder.posterImageView);
+
 
     }
 
